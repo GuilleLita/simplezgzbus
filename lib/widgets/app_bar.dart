@@ -6,7 +6,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
           title: Text('Simple ZGZ Bus'),
           centerTitle: false, // Center the title text
-          backgroundColor: const Color.fromARGB(255, 21, 126, 18), // Set the background color
+          backgroundColor: Colors.green, // Set the background color
           titleTextStyle: TextStyle(
             color: Colors.white,
             fontSize: 20,
