@@ -1,22 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:simplezgzbus/models/bus_stops.dart';
 import 'package:simplezgzbus/widgets/app_bar.dart';
+import 'package:simplezgzbus/widgets/search_bar.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+
   @override
-  Widget build(BuildContext context) {
+  State<StatefulWidget> createState() {
+    return _MyHomePageState();
+  }
+  
+}
+
+
+class _MyHomePageState extends State<MyHomePage> {
+
+  bool isSearching = false;
 
     handleClick() async {
-      
-      Navigator.pushNamed(context, '/selectStop', arguments: busStopsNow);
+      setState(() {
+        isSearching = !isSearching;
+      });
+      print(isSearching);
     }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            isSearching ? StopSearchBar() : Container(),
             IconButton(
               iconSize: 50,
               color: Colors.green,

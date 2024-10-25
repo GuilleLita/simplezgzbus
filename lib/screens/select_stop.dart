@@ -14,7 +14,7 @@ class SelectStopScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(),
-      body: TransportListWidget(stops),
+      body: TransportListWidget(stops, 200),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           
