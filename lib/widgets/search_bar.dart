@@ -16,6 +16,8 @@ class _StopSearchBarState extends State<StopSearchBar> {
 
   bool isSearching = false;
   String input = '';
+  List<BusStop> busStops = [];
+  final textController = TextEditingController();
 
   void _search() async {
     if(input.isNotEmpty) {
@@ -33,14 +35,43 @@ class _StopSearchBarState extends State<StopSearchBar> {
     print('Searching...');
   }
 
-  List<BusStop> busStops = [BusStop(number: "1",name: 'Paseo Independencia'), BusStop(number: "20", name: 'Plaza España')];
+  void _clear() async {
+    setState(() {
+      isSearching = false;
+      input = '';
+    });
+    textController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
     return
          Column(
            children: [
-            isSearching ?  TransportListWidget(busStops, 355) : Container() ,
+            (isSearching && busStops.isNotEmpty) ?  
+                TransportListWidget(busStops, 355, () => _clear()) : //Se muestra la lista de paradas si se ha buscado algo y se han encontrado paradas
+                isSearching ? 
+                  Container(             //Se muestra un mensaje si no se han encontrado paradas
+                    constraints: BoxConstraints(
+                      minWidth: double.infinity,
+                    ),
+                    padding: EdgeInsets.all(10),
+                    margin: EdgeInsets.only(bottom: 3, top: 3, left: 10, right: 10),
+                    decoration: BoxDecoration(
+                                  border: Border.all(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                  borderRadius: BorderRadius.circular(3),
+                                ),
+                    child: Text("No se han encotrado paradas",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                ) : Container(), //Si no se ha buscado nada no se muestra nada
              Row(
                children: [
                   Container(
@@ -48,6 +79,7 @@ class _StopSearchBarState extends State<StopSearchBar> {
                     child: SizedBox(
                       width: 330,
                       child: TextField(
+                        controller: textController,
                         onChanged: (value) {
                           input = value;
                         },
@@ -57,7 +89,7 @@ class _StopSearchBarState extends State<StopSearchBar> {
                         decoration: InputDecoration(
                           hintText: 'Nº de parada...',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(3),
                           ),
                         ),
                       ),

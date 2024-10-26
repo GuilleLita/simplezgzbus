@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simplezgzbus/services/my_stops_manager.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -13,13 +14,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             fontWeight: FontWeight.bold,
             fontFamily: 'Roboto',
           ),
-          actions: [
-           
+          actions: [ 
             IconButton(
               icon: Icon(Icons.info_outlined),
               color: Colors.white,
               onPressed:  (){
-                 
+                 MyStopsManager.deleteAll();
               },
             ),
           ],

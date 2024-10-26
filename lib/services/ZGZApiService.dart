@@ -21,8 +21,30 @@ class ZGZApiService {
 
           final lineaIndex = busStopTitle.indexOf('Línea'); // Find the index of the first 'Línea'
           var busStopName = busStopTitle.substring(finalNumberIndex + 2, lineaIndex-1);// Extract the substring from the first '.' to the first 'Línea';
-          var busStop = BusStop(number: busStopNumber,name: busStopName);
+          var busStop = BusStop(number: busStopNumber,name: busStopName, id: results[i]['id']);
           toView.add(busStop);
+        }
+        return toView;
+      }
+      else{
+        throw Exception("Failed to load data");
+      }
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<List> fetchBusWait(idStop) async{
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/servicio/urbanismo-infraestructuras/transporte-urbano/poste-autobus/$idStop.json?rf=html&srsname=wgs84'));
+      if (response.statusCode == 200) {
+        final bodyJson = json.decode(response.body);
+        final results = bodyJson['result'];
+        var toView = [];
+        for (var i = 0; i < results.length; i++) {
+          var busWait = results[i]['title'];
+          toView.add(busWait);
         }
         return toView;
       }

@@ -6,9 +6,10 @@ import 'package:simplezgzbus/screens/select_stop.dart';
 import 'package:simplezgzbus/screens/splash_screen.dart';
 import 'package:simplezgzbus/services/ZGZApiService.dart';
 import 'package:simplezgzbus/models/bus_stops.dart';
+import 'package:simplezgzbus/services/my_stops_manager.dart';
 
 void main() {
-  getBusStops();
+  initApp();
   runApp(MyApp());
 }
 
@@ -44,7 +45,7 @@ class _FutureBuilderAppState extends State<FutureBuilderApp> {
       style: Theme.of(context).textTheme.displayMedium!,
       textAlign: TextAlign.center,
       child: FutureBuilder<String>(
-        future: getBusStops(),
+        future: initApp(),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.hasData) {
             return ChangeNotifierProvider(
@@ -58,7 +59,8 @@ class _FutureBuilderAppState extends State<FutureBuilderApp> {
               home: MyHomePage(),
               onGenerateRoute: (settings) => MaterialPageRoute(
                 builder: (context) {
-                  return SelectStopScreen(settings.arguments as List<dynamic>);
+                  return MyHomePage();
+                  //return SelectStopScreen(settings.arguments as List<dynamic>);
                 },
               ),
             )
@@ -77,10 +79,13 @@ class _FutureBuilderAppState extends State<FutureBuilderApp> {
 
 
 
-Future<String> getBusStops() async {
+Future<String> initApp() async {
   var clock = DateTime.now();
   var busStops = await ZGZApiService().fetchBusStops();
+  await MyStopsManager.openMyDatabase();
+  myStopsNow = await MyStopsManager.getMyStops();
   var clock2 = DateTime.now();
+
   var diff = clock2.difference(clock);
   busStopsNow = List.from(busStops);
   if(diff.inSeconds < 2) {
