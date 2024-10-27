@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:simplezgzbus/models/bus_line.dart';
 import 'package:simplezgzbus/models/bus_stops.dart';
+import 'package:simplezgzbus/services/ZGZApiService.dart';
 import 'package:simplezgzbus/services/my_stops_manager.dart';
 
 class MyStopsList extends StatefulWidget {
@@ -49,13 +51,56 @@ class Stop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
-      initiallyExpanded: true,
-      title: Text("${stop.number} - ${stop.name}"),
-      children: [
-        Text(stop.number),
-        Text(stop.id),
-      ],
+    return FutureBuilder<List<NextDestination>>(
+      future: fetchTimes(stop.id),
+      builder: (context, snapshot) => 
+        snapshot.hasData ? 
+          Card(
+            
+            elevation: 0,
+            margin: EdgeInsets.all(0),
+            child: ExpansionTile(
+              backgroundColor: Color.fromARGB(255, 237, 237, 237),
+              initiallyExpanded: true,
+              leading: Icon(Icons.directions_bus),
+              title: Text(stop.name),
+              
+              children: [  
+                for (var time in snapshot.data!) 
+                  ListTile(
+                    title: Text("${time.number} ${time.direccion}"),
+                    subtitle: Text("${time.first_time}"),
+                  )
+              ],
+            ),
+          ) : 
+          Card(
+            elevation: 0,
+            margin: EdgeInsets.all(0),
+            child: ListTile(
+              tileColor: Color.fromARGB(255, 237, 237, 237),
+              onTap: () => onTap(stop),
+              leading: Icon(Icons.directions_bus),
+              title: Text(stop.name),
+              subtitle: Text('Cargando...'),
+            ),
+          ),
+      
     );
   }
+}
+
+
+Future<List<NextDestination>> fetchTimes(String id) async {
+  var retValue = [];
+  for (var i = 0; i < 5; i++) {
+    retValue = await ZGZApiService().fetchBusWait(id);
+    if (retValue.isNotEmpty) {
+      break;
+    }
+    else {
+      await Future.delayed(Duration(seconds: 1));
+    }
+  }
+  return await ZGZApiService().fetchBusWait(id);
 }

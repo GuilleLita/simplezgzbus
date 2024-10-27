@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:simplezgzbus/models/bus_line.dart';
 import 'package:simplezgzbus/models/bus_stops.dart';
 
 class ZGZApiService {
@@ -35,16 +36,17 @@ class ZGZApiService {
     }
   }
 
-  Future<List> fetchBusWait(idStop) async{
+  Future<List<NextDestination>> fetchBusWait(idStop) async{
     try {
       final response = await http.get(Uri.parse('$baseUrl/servicio/urbanismo-infraestructuras/transporte-urbano/poste-autobus/$idStop.json?rf=html&srsname=wgs84'));
       if (response.statusCode == 200) {
         final bodyJson = json.decode(response.body);
-        final results = bodyJson['result'];
-        var toView = [];
+        final results = bodyJson['destinos'];
+        List<NextDestination> toView = [];
         for (var i = 0; i < results.length; i++) {
-          var busWait = results[i]['title'];
-          toView.add(busWait);
+          var busDestination = NextDestination(number: results[i]['linea'], direccion: results[i]['destino'], first_time:  results[i]['primero'], last_time:  results[i]['segundo']);
+          
+          toView.add(busDestination);
         }
         return toView;
       }

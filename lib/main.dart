@@ -2,7 +2,6 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simplezgzbus/screens/home_page.dart';
-import 'package:simplezgzbus/screens/select_stop.dart';
 import 'package:simplezgzbus/screens/splash_screen.dart';
 import 'package:simplezgzbus/services/ZGZApiService.dart';
 import 'package:simplezgzbus/models/bus_stops.dart';

@@ -79,17 +79,17 @@ class MyStopsManagerNotifier extends ChangeNotifier{
   List<BusStop> get myStops => _myStops;
 
   void addStop(BusStop newBusStop) {
-    myStops.add(newBusStop);
+    _myStops.add(newBusStop);
     notifyListeners();
   }
 
   void deleteStop(String id) async {
-    myStops.removeWhere((element) => element.id == id);
+    _myStops.removeWhere((element) => element.id == id);
     notifyListeners();
   }
 
   void deleteAll() async {
-    myStops.clear();
+    _myStops.clear();
     notifyListeners();
   }
  

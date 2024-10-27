@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:simplezgzbus/services/my_stops_manager.dart';
 
 class TransportListWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -8,8 +7,8 @@ class TransportListWidget extends StatelessWidget implements PreferredSizeWidget
   final double width;
   final Function selected;
 
-  void onTap(stop){
-    MyStopsManager.addStop(stop);
+  void onTap(stop) async{
+    await MyStopsManager.addStop(stop);
     selected();
     print(stop);
   }
