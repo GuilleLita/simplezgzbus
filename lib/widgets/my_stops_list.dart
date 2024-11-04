@@ -92,7 +92,7 @@ class Stop extends StatelessWidget {
 
 
 Future<List<NextDestination>> fetchTimes(String id) async {
-  var retValue = [];
+  List<NextDestination> retValue = [];
   for (var i = 0; i < 5; i++) {
     retValue = await ZGZApiService().fetchBusWait(id);
     if (retValue.isNotEmpty) {
@@ -102,5 +102,5 @@ Future<List<NextDestination>> fetchTimes(String id) async {
       await Future.delayed(Duration(seconds: 1));
     }
   }
-  return await ZGZApiService().fetchBusWait(id);
+  return retValue;
 }

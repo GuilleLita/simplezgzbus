@@ -26,35 +26,39 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBar(),
-      body: Column(
-        
-        children: [
-          Expanded(
-            flex: 1,
-            child: MyStopsList()),
-          Expanded(
-            flex: 0,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+    return PopScope(
+      canPop: !isSearching,
+      onPopInvokedWithResult: (didPop, result) => didPop ?  null : handleClick() ,
+      child: Scaffold(
+        appBar: MyAppBar(),
+        body: Column(
+          
+          children: [
+            Expanded(
+              flex: 1,
+              child: MyStopsList()),
+            Expanded(
+              flex: 0,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  
+                  children: [
+                    isSearching ? StopSearchBar() : Container(),
+                    IconButton(
+                      iconSize: 50,
+                      color: Colors.green,
+                      icon: Icon(Icons.add_circle_outline),
+                      onPressed: handleClick,
+                      
+                    ),
                 
-                children: [
-                  isSearching ? StopSearchBar() : Container(),
-                  IconButton(
-                    iconSize: 50,
-                    color: Colors.green,
-                    icon: Icon(Icons.add_circle_outline),
-                    onPressed: handleClick,
-                    
-                  ),
-              
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

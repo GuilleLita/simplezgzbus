@@ -25,7 +25,6 @@ class TransportListWidget extends StatelessWidget implements PreferredSizeWidget
                     ),
                     margin: EdgeInsets.only(bottom: 3, top: 3, left: 10, right: 10),
         decoration: BoxDecoration(
-          
           borderRadius: BorderRadius.circular(10),
         ),
         padding: EdgeInsets.all(0),

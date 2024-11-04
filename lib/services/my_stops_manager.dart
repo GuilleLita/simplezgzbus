@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:simplezgzbus/models/bus_stops.dart';
 import 'package:sqflite/sqflite.dart';
@@ -79,6 +81,7 @@ class MyStopsManagerNotifier extends ChangeNotifier{
   List<BusStop> get myStops => _myStops;
 
   void addStop(BusStop newBusStop) {
+    log('Adding stop ${newBusStop.name}');
     _myStops.add(newBusStop);
     notifyListeners();
   }
