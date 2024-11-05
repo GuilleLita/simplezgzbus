@@ -6,6 +6,12 @@ The main goal is to keep it simple.
 ## Develop
 Follow the [Flutter Documentation](https://docs.flutter.dev/get-started/install) to develop android apps
 
+## Data Sources
+
+All the data comes from the [API Zaragoza](https://www.zaragoza.es/sede/portal/datos-abiertos/api) served by Ayuntamiento de Zaragoza.
+
+The reference for this REST API can be found [here](https://www.zaragoza.es/docs-api_sede/).
+
 ## License
 
 [![GNU GPLv3 Image](https://www.gnu.org/graphics/gplv3-127x51.png)](https://www.gnu.org/licenses/gpl-3.0.en.html)
