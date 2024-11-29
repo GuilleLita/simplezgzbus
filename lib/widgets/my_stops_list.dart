@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:simplezgzbus/models/bus_line.dart';
 import 'package:simplezgzbus/models/bus_stops.dart';
@@ -17,10 +15,14 @@ class MyStopsList extends StatefulWidget {
 class _MyStopsListState extends State<MyStopsList> {
   final MyStopsManagerNotifier _myStopsManagerNotifier = MyStopsManager.myStopsManagerNotifier;
   List<BusStop> myStops = myStopsNow;
+  List<Stop> stopWidgets = [];
+  bool refreshBool = true;
+
 
   Future<void> _handleRefresh() async {
+    
     setState(() {
-      myStops = myStopsNow;
+      refreshBool = !refreshBool;
     });
   }
 
@@ -34,12 +36,15 @@ class _MyStopsListState extends State<MyStopsList> {
             minHeight: 200,
           ),
           child: RefreshIndicator(
+            color: Colors.green,
             onRefresh: _handleRefresh,
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: _myStopsManagerNotifier.myStops.length,
               itemBuilder: (context, index) {
-                return Stop(_myStopsManagerNotifier.myStops[index]);
+                Stop aux = Stop(_myStopsManagerNotifier.myStops[index], key: ValueKey(refreshBool));
+                stopWidgets.add(aux);
+                return aux;
               },
             ),
           ),
@@ -50,20 +55,37 @@ class _MyStopsListState extends State<MyStopsList> {
 }
 
 
-class Stop extends StatelessWidget {
+class Stop extends StatefulWidget {
   final BusStop stop;
+
+  Stop(this.stop, {Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _StopSate();
+  }
+}
+
+
+class _StopSate extends State<Stop> {
+  late Future<List<NextDestination>> future;
 
   void onTap(stop){
     //Expand card
     print(stop);
   }
 
-  Stop(this.stop);
+  @override
+  void initState() {
+    super.initState();
+    future = fetchTimes(widget.stop.id);
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<NextDestination>>(
-      future: fetchTimes(stop.id),
+      future: future,
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -73,9 +95,9 @@ class Stop extends StatelessWidget {
               margin: EdgeInsets.all(0),
               child: ListTile(
                 tileColor: Color.fromARGB(255, 237, 237, 237),
-                onTap: () => onTap(stop),
+                onTap: () => onTap(widget.stop),
                 leading: Icon(Icons.directions_bus),
-                title: Text(stop.name),
+                title: Text(widget.stop.name),
                 subtitle: Text('Cargando...'),
               ),
             );
@@ -86,9 +108,9 @@ class Stop extends StatelessWidget {
                 margin: EdgeInsets.all(0),
                 child: ListTile(
                   tileColor: Color.fromARGB(255, 237, 237, 237),
-                  onTap: () => onTap(stop),
+                  onTap: () => onTap(widget.stop),
                   leading: Icon(Icons.directions_bus),
-                  title: Text(stop.name),
+                  title: Text(widget.stop.name),
                   subtitle: Text('Error al cargar los datos'),
                 ),
               );
@@ -102,8 +124,8 @@ class Stop extends StatelessWidget {
                   backgroundColor: Color.fromARGB(255, 237, 237, 237),
                   initiallyExpanded: true,
                   leading: Icon(Icons.directions_bus),
-                  title: Text(stop.name),
-                  
+                  title: Text(widget.stop.name),
+                  onExpansionChanged: (isExpanded) => onTap(widget.stop),
                   children: [  
                     for (var time in snapshot.data!) 
                       ListTile(
