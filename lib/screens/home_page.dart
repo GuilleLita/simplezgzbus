@@ -29,35 +29,48 @@ class _MyHomePageState extends State<MyHomePage> {
     return PopScope(
       canPop: !isSearching,
       onPopInvokedWithResult: (didPop, result) => didPop ?  null : handleClick() ,
-      child: Scaffold(
-        appBar: MyAppBar(),
-        body: Column(
-          
-          children: [
-            Expanded(
-              flex: 1,
-              child: MyStopsList()),
-            Expanded(
-              flex: 0,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: MyAppBar(),
+          body: Column(
+            children: [
+              TabBar(tabs: [
+                Tab(text: "Buses"),
+                Tab(text: "Tranvia")
+              ]),
+              Expanded(
+                flex: 1,
+                child: TabBarView(
                   children: [
-                    isSearching ? StopSearchBar() : Container(),
-                    IconButton(
-                      iconSize: 50,
-                      color: Colors.green,
-                      icon: Icon(Icons.add_circle_outline),
-                      onPressed: handleClick,
-                      
-                    ),
-                
+                    MyStopsList(),
+                    Icon(Icons.tram)
+                    //MyStopsList(),
                   ],
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                flex: 0,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    
+                    children: [
+                      isSearching ? StopSearchBar() : Container(),
+                      IconButton(
+                        iconSize: 50,
+                        color: Colors.green,
+                        icon: Icon(Icons.add_circle_outline),
+                        onPressed: handleClick,
+                        
+                      ),
+                  
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
