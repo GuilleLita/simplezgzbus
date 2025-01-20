@@ -119,7 +119,6 @@ class ZGZApiService {
       if (response.statusCode == 200) {
         final bodyJson = json.decode(response.body);
         final results = bodyJson['destinos'];
-        List<NexTrams> toView = [];
         if(results.length == 0){
           return NexTrams(name: stop.name, direction1: 'No hay datos', time_direction1: 'No hay datos');
         }

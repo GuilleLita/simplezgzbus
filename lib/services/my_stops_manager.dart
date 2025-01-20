@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:simplezgzbus/models/bus_stops.dart';
 import 'package:simplezgzbus/models/tram_stops.dart';
@@ -110,8 +108,6 @@ class MyStopsManager  {
 
 
 class MyStopsManagerNotifier extends ChangeNotifier{
-  List<BusStop> _myStops = myStopsNow;
-  List<TramStop> _myTramStops = myTramStopsNow;
 
   List<BusStop> get myStops => myStopsNow;
   List<TramStop> get myTramStops => myTramStopsNow;

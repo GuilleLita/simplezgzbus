@@ -86,6 +86,8 @@ class _FutureBuilderAppState extends State<FutureBuilderApp> {
 
 Future<String> initApp() async {
   var clock = DateTime.now();
+
+  //Get saved stops
   var busStops = await ZGZApiService().fetchBusStops();
   await MyStopsManager.openMyDatabase();
   myStopsNow = await MyStopsManager.getMyStops();
@@ -98,7 +100,7 @@ Future<String> initApp() async {
 
   var diff = clock2.difference(clock);
   busStopsNow = List.from(busStops);
-  if(diff.inSeconds < 2) {
+  if(diff.inSeconds < 2) { //Prevent the splash screen from disappearing too quickly
     await Future.delayed(Duration(seconds: 2));
   }
   

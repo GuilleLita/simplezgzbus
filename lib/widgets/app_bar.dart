@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simplezgzbus/services/my_stops_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 

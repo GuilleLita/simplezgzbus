@@ -12,7 +12,7 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _MyHomePageState(packageInfo:  packageInfo);
+    return _MyHomePageState();
   }
   
 }
@@ -20,8 +20,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin{
 
-  final PackageInfo packageInfo;
-  _MyHomePageState({required this.packageInfo});
+  late PackageInfo packageInfo;
+  _MyHomePageState();
   bool isSearching = false;
   late TabController _tabController;
   int _selectedIndex = 0;
@@ -29,7 +29,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 2, animationDuration: Duration(milliseconds: 100));
-
+    packageInfo = widget.packageInfo;
     _tabController.addListener(_handleTabSelection);
   }
 
