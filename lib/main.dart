@@ -1,6 +1,7 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:simplezgzbus/models/tram_stops.dart';
 import 'package:simplezgzbus/screens/home_page.dart';
 import 'package:simplezgzbus/screens/splash_screen.dart';
 import 'package:simplezgzbus/services/ZGZApiService.dart';
@@ -83,6 +84,8 @@ Future<String> initApp() async {
   var busStops = await ZGZApiService().fetchBusStops();
   await MyStopsManager.openMyDatabase();
   myStopsNow = await MyStopsManager.getMyStops();
+  myTramStopsNow = await MyStopsManager.getMyTramStops();
+  tramStopsNow = await ZGZApiService().fetchTramStops();
   var clock2 = DateTime.now();
 
   var diff = clock2.difference(clock);

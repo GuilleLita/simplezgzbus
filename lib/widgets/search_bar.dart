@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:simplezgzbus/models/bus_stops.dart';
+import 'package:simplezgzbus/models/tram_stops.dart';
 import 'package:simplezgzbus/widgets/transport_list.dart';
 
 class StopSearchBar extends StatefulWidget {
+  final int tabIndex;
+  StopSearchBar(this.tabIndex, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -13,19 +16,21 @@ class StopSearchBar extends StatefulWidget {
 }
 
 class _StopSearchBarState extends State<StopSearchBar> {
-
+  
   bool isSearching = false;
   String input = '';
-  List<BusStop> busStops = [];
+  List stops = [];
   final textController = TextEditingController();
 
-  void _search() async {
+  void _search(context) async {
+    bool isTramTab = widget.tabIndex == 1;
     if(input.isNotEmpty) {
-      var displayedBusStops = busStopsNow.where((element) => element.toString().toLowerCase().contains(input.toLowerCase())).toList();
+      var displayedBusStops = isTramTab ? tramStopsNow.where((element) => element.toString().toLowerCase().contains(input.toLowerCase())).toList() :
+                                          busStopsNow.where((element) => element.toString().toLowerCase().contains(input.toLowerCase())).toList();
 
        setState(() {
         isSearching = true;
-        busStops =  displayedBusStops;
+        stops =  displayedBusStops;
       });
     } else {
       setState(() {
@@ -51,8 +56,8 @@ class _StopSearchBarState extends State<StopSearchBar> {
           onPopInvokedWithResult: (didPop, result) => didPop ?  null: _clear(),
            child: Column(
              children: [
-              (isSearching && busStops.isNotEmpty) ?  
-                  TransportListWidget(busStops, 355, () => _clear()) : //Se muestra la lista de paradas si se ha buscado algo y se han encontrado paradas
+              (isSearching && stops.isNotEmpty) ?  
+                  TransportListWidget(stops, 355, () => _clear(), widget.tabIndex == 1) : //Se muestra la lista de paradas si se ha buscado algo y se han encontrado paradas
                   isSearching ? 
                     Container(             //Se muestra un mensaje si no se han encontrado paradas
                       constraints: BoxConstraints(
@@ -87,7 +92,7 @@ class _StopSearchBarState extends State<StopSearchBar> {
                             input = value;
                           },
                           onSubmitted: (value) {
-                            _search();
+                            _search(context);
                           },
                           decoration: InputDecoration(
                             hintText: 'Nº de parada...',
@@ -100,7 +105,7 @@ class _StopSearchBarState extends State<StopSearchBar> {
                     ),
                     IconButton(
                       icon: Icon(Icons.search),
-                      onPressed: _search,
+                      onPressed: () => _search(context),
                     ),
                  ],
                ),

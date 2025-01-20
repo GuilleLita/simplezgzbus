@@ -6,14 +6,15 @@ class TransportListWidget extends StatelessWidget implements PreferredSizeWidget
 
   final double width;
   final Function selected;
+  final bool isTram ;
 
   void onTap(stop) async{
-    await MyStopsManager.addStop(stop);
+    isTram ? MyStopsManager.addTramStop(stop):  MyStopsManager.addStop(stop);
     selected();
     print(stop);
   }
 
-  TransportListWidget(this.transportList, this.width, this.selected);
+  TransportListWidget(this.transportList, this.width, this.selected, this.isTram);
 
   @override
   Widget build(BuildContext context) {
