@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:simplezgzbus/widgets/app_bar.dart';
 import 'package:simplezgzbus/widgets/my_busstops_list.dart';
 import 'package:simplezgzbus/widgets/my_tramstops_list.dart';
@@ -6,9 +7,12 @@ import 'package:simplezgzbus/widgets/search_bar.dart';
 
 class MyHomePage extends StatefulWidget {
 
+  final PackageInfo packageInfo;
+  MyHomePage({required this.packageInfo});
+
   @override
   State<StatefulWidget> createState() {
-    return _MyHomePageState();
+    return _MyHomePageState(packageInfo:  packageInfo);
   }
   
 }
@@ -16,6 +20,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin{
 
+  final PackageInfo packageInfo;
+  _MyHomePageState({required this.packageInfo});
   bool isSearching = false;
   late TabController _tabController;
   int _selectedIndex = 0;
@@ -48,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       canPop: !isSearching,
       onPopInvokedWithResult: (didPop, result) => didPop ?  null : handleClick() ,
         child: Scaffold(
-          appBar: MyAppBar(),
+          appBar: MyAppBar(packageInfo: packageInfo),
           body: Column(
             children: [
               TabBar(

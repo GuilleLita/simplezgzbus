@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:simplezgzbus/models/bus_stops.dart';
 import 'package:simplezgzbus/models/tram_stops.dart';
@@ -56,9 +58,11 @@ class MyStopsManager  {
   }
 
   static Future<void> addStop(BusStop newBusStop) async {
+    
     if (myStopsNow.contains(newBusStop)) {
       return;
     }
+    print('Adding stop' + newBusStop.name);
     await _database!.insert(
       'my_bus_stops',
       {
@@ -109,16 +113,17 @@ class MyStopsManagerNotifier extends ChangeNotifier{
   List<BusStop> _myStops = myStopsNow;
   List<TramStop> _myTramStops = myTramStopsNow;
 
-  List<BusStop> get myStops => _myStops;
-  List<TramStop> get myTramStops => _myTramStops;
+  List<BusStop> get myStops => myStopsNow;
+  List<TramStop> get myTramStops => myTramStopsNow;
 
   void addStop(BusStop newBusStop) {
-    _myStops.add(newBusStop);
+    
+    //_myStops.add(newBusStop);
     notifyListeners();
   }
 
   void addTramStop(TramStop newTramStop) {
-    _myTramStops.add(newTramStop);
+    //_myTramStops.add(newTramStop);
     notifyListeners();
   }
 

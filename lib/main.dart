@@ -7,8 +7,13 @@ import 'package:simplezgzbus/screens/splash_screen.dart';
 import 'package:simplezgzbus/services/ZGZApiService.dart';
 import 'package:simplezgzbus/models/bus_stops.dart';
 import 'package:simplezgzbus/services/my_stops_manager.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+
+
+late PackageInfo packageInfo;
 
 void main() {
+  
   initApp();
   runApp(MyApp());
 }
@@ -54,12 +59,12 @@ class _FutureBuilderAppState extends State<FutureBuilderApp> {
               title: 'Simple Zgz Bus',
               theme: ThemeData(
                 useMaterial3: true,
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+                colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
               ),
-              home: MyHomePage(),
+              home: MyHomePage(packageInfo: packageInfo),
               onGenerateRoute: (settings) => MaterialPageRoute(
                 builder: (context) {
-                  return MyHomePage();
+                  return MyHomePage(packageInfo: packageInfo);
                   //return SelectStopScreen(settings.arguments as List<dynamic>);
                 },
               ),
@@ -86,6 +91,9 @@ Future<String> initApp() async {
   myStopsNow = await MyStopsManager.getMyStops();
   myTramStopsNow = await MyStopsManager.getMyTramStops();
   tramStopsNow = await ZGZApiService().fetchTramStops();
+
+  packageInfo = await PackageInfo.fromPlatform();
+
   var clock2 = DateTime.now();
 
   var diff = clock2.difference(clock);
