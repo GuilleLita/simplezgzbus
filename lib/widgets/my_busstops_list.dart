@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simplezgzbus/models/bus_line.dart';
 import 'package:simplezgzbus/models/bus_stops.dart';
-import 'package:simplezgzbus/services/ZGZApiService.dart';
 import 'package:simplezgzbus/services/my_stops_manager.dart';
 import 'package:simplezgzbus/widgets/common/stops.dart';
 
@@ -31,10 +29,12 @@ class _MyStopsListState extends State<MyStopsList> {
   Widget build(BuildContext context) {
     //TODO: If list emptry show a message
     
-    return ListenableBuilder(
+    return 
+     ListenableBuilder(
       listenable: _myStopsManagerNotifier,
       builder: (context, snapshot) {
-        return Container(
+        return _myStopsManagerNotifier.myBusStops.isEmpty ? Center(child: Text('No hay paradas añadidas.\nPulsa el boton + de abajo para añadir una.', textAlign: TextAlign.center),) :
+         Container(
           constraints: BoxConstraints(
             minHeight: 200,
           ),

@@ -1,9 +1,9 @@
 name: simplezgzbus
-description: A new Flutter project.
+description: App to view bus and tram stops times
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.0.1+1
+version: 1.0.0+1
 
 environment:
   sdk: '>=2.19.4 <4.0.0'

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simplezgzbus/models/tram_stops.dart';
 import 'package:simplezgzbus/widgets/common/stops.dart';
-import 'package:simplezgzbus/services/ZGZApiService.dart';
 import 'package:simplezgzbus/services/my_stops_manager.dart';
 
 class TramStopsListWidget extends StatefulWidget {
@@ -30,11 +29,11 @@ class _TramStopsListWidgetState extends State<TramStopsListWidget> {
   Widget build(BuildContext context) {
 
     return
-
      ListenableBuilder(
       listenable: _myStopsManagerNotifier,
       builder: (context, snapshot) {
-        return Container(
+        return  _myStopsManagerNotifier.myTramStops.isEmpty ? Center(child: Text('No hay paradas añadidas.\nPulsa el boton + de abajo para añadir una.', textAlign: TextAlign.center),) :
+        Container(
           constraints: BoxConstraints(
             minHeight: 200,
           ),
