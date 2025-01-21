@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:simplezgzbus/models/bus_line.dart';
 import 'package:simplezgzbus/models/bus_stops.dart';
-import 'package:simplezgzbus/services/ZGZApiService.dart';
 import 'package:simplezgzbus/services/my_stops_manager.dart';
-import 'package:simplezgzbus/widgets/common/stops.dart';
 
-class MyStopsList extends StatefulWidget {
+class MyStopsList<T extends Widget,U extends Widget> extends StatefulWidget {
   final bool isDeleting;
   MyStopsList({Key? key, required this.isDeleting}) : super(key: key);
   
   @override
   State<StatefulWidget> createState() {
-    return _MyStopsListState();
+    return _MyStopsListState<T,U>();
   }
 }
 
-class _MyStopsListState extends State<MyStopsList> {
+class _MyStopsListState<T extends Widget,U extends Widget> extends State<MyStopsList> {
   final MyStopsManagerNotifier _myStopsManagerNotifier = MyStopsManager.myStopsManagerNotifier;
   List<BusStop> myStops = myStopsNow;
+  late T stopList;
+  late U stopListInDelete;
   bool refreshBool = true;
 
   Future<void> _handleRefresh() async {
@@ -27,11 +26,22 @@ class _MyStopsListState extends State<MyStopsList> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     //TODO: If list emptry show a message
-    
-    return ListenableBuilder(
+    print("Building MyStopsList isDeleting: ${widget.isDeleting}");
+    return widget.isDeleting ? ListenableBuilder(
+      listenable: _myStopsManagerNotifier,
+      builder: (context, snapshot) => Container(
+        constraints: BoxConstraints(
+          minHeight: 200,
+        ),
+        child: stopListInDelete,
+      )
+    ) : 
+    ListenableBuilder(
       listenable: _myStopsManagerNotifier,
       builder: (context, snapshot) {
         return Container(
@@ -41,8 +51,7 @@ class _MyStopsListState extends State<MyStopsList> {
           child: RefreshIndicator(
             color: Colors.green,
             onRefresh: _handleRefresh,
-            child: widget.isDeleting ? ListOfBusStopsInDelete(stops: _myStopsManagerNotifier.myBusStops) 
-                                     : ListOfBusStops(stops: _myStopsManagerNotifier.myBusStops, refreshBool: refreshBool),
+            child: stopList,
           ),
         );
       }

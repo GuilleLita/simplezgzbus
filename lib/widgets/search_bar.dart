@@ -5,7 +5,8 @@ import 'package:simplezgzbus/widgets/transport_list.dart';
 
 class StopSearchBar extends StatefulWidget {
   final int tabIndex;
-  StopSearchBar(this.tabIndex, {Key? key}) : super(key: key);
+  final FocusNode focusNode;
+  StopSearchBar(this.tabIndex, this.focusNode , {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -83,10 +84,11 @@ class _StopSearchBarState extends State<StopSearchBar> {
                Row(
                  children: [
                     Container(
-                      padding: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.only(left: 10, bottom: 10),
                       child: SizedBox(
                         width: 330,
                         child: TextField(
+                          focusNode: widget.focusNode,
                           controller: textController,
                           onChanged: (value) {
                             input = value;

@@ -99,6 +99,18 @@ class MyStopsManager  {
     myStopsManagerNotifier.deleteStop(id);
   }
 
+  static Future<void> deleteTramStop(String id) async {
+    await _database!.delete(
+      'my_tram_stops',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    myTramStopsNow.removeWhere((element) => element.id == id);
+    myStopsManagerNotifier.deleteStop(id);
+  }
+
+  
+
   static Future<void> deleteAll() async {
     await _database!.delete('my_bus_stops');
     myStopsNow.clear();
@@ -109,7 +121,7 @@ class MyStopsManager  {
 
 class MyStopsManagerNotifier extends ChangeNotifier{
 
-  List<BusStop> get myStops => myStopsNow;
+  List<BusStop> get myBusStops => myStopsNow;
   List<TramStop> get myTramStops => myTramStopsNow;
 
   void addStop(BusStop newBusStop) {

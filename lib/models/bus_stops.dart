@@ -16,12 +16,12 @@ class BusStop {
   }
 
   @override
-  int get hashCode => name.hashCode;
+  int get hashCode => id.hashCode;
 
   @override
   bool operator ==(Object other) {
     if (other is BusStop) {
-      return name == other.name;
+      return id == other.id;
     }
     if (other is String) {
       return name == other;
