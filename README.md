@@ -3,6 +3,11 @@
 Flutter app that allows to visualize the time left of a selected line in a bus stop or a tram stop.
 The main goal is to keep it simple.
 
+<img src="https://github.com/user-attachments/assets/328c575e-9642-41f7-93b9-3d6aeaf58297" alt="Main Screen" width="200" height="400">
+<img src="https://github.com/user-attachments/assets/0ca0c163-c72a-4821-adea-09887d2d00f5" alt="Tram Screen" width="200" height="400">
+<img src="https://github.com/user-attachments/assets/d992674b-71aa-4cbf-af94-eaa7144d5a39" alt="Search Bar" width="200" height="400">
+
+
 ## Develop
 Follow the [Flutter Documentation](https://docs.flutter.dev/get-started/install) to develop android apps
 
